@@ -25,10 +25,10 @@ Symbolic result of ecrecover.
       requires notBool #isConcrete(DATA) andBool #sizeWordStack(DATA) ==Int 128 andBool #ecrecEmpty(DATA)
 
     //Symbolic wrapper over the argument of #ecrec, no implementation. 
-    syntax Int ::= #symEcrec ( WordStack )   [function]
+    syntax Int ::= #symEcrec ( WordStack )   [function, smtlib(sym_ecrec)]
     
     //Symbolic predicate representing whether output of #ecrec is empty. No implementation.
-    syntax Bool ::= #ecrecEmpty( WordStack ) [function]
+    syntax Bool ::= #ecrecEmpty( WordStack ) [function, smtlib(ecrec_empty)]
 ```
 
 Split construct. Allows to force branching on arbitrary boolean expressions.
