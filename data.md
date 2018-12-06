@@ -403,7 +403,7 @@ A cons-list is used for the EVM wordstack.
 
 ```k
     syntax WordStack [flatPredicate]
-    syntax WordStack ::= ".WordStack" | Int ":" WordStack [smtlib(ws)]
+    syntax WordStack ::= ".WordStack" | Int ":" WordStack [klabel(#wordStack), smtlib(ws)]
  // -----------------------------------------------------
 ```
 
