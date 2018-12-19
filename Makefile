@@ -23,7 +23,7 @@ export LUA_PATH
         defn java-defn ocaml-defn node-defn haskell-defn \
         test test-all test-concrete test-all-concrete test-conformance test-slow-conformance test-all-conformance \
         test-vm test-slow-vm test-all-vm test-bchain test-slow-bchain test-all-bchain \
-        test-proof test-interactive test-vm-normal test-vm-haskell-perf \
+        test-proof test-interactive test-vm-normal test-vm-haskell-perf test-vm-haskell-quick \
         metropolis-theme 2017-devcon3 sphinx
 .SECONDARY:
 
@@ -294,11 +294,28 @@ haskell_perf_tests=tests/ethereum-tests/VMTests/vmArithmeticTest/expPowerOf256Of
                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/jump0_foreverOutOfGas.json \
                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/loop_stacklimit_1020.json
 
+haskell_quick_tests=tests/ethereum-tests/VMTests/vmRandomTest/201503112218PYTHON.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/pop1.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/jumpOntoJump.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/sstore_underflow.json \
+                    tests/ethereum-tests/VMTests/vmRandomTest/201503110219PYTHON.json \
+                    tests/ethereum-tests/VMTests/vmPushDupSwapTest/push1_missingStack.json \
+                    tests/ethereum-tests/VMTests/vmRandomTest/201503111844PYTHON.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/mloadOutOfGasError2.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/mloadMemExp.json \
+                    tests/ethereum-tests/VMTests/vmArithmeticTest/mulUnderFlow.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/jumpInsidePushWithoutJumpDest.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/jumpHigh.json \
+                    tests/ethereum-tests/VMTests/vmIOandFlowOperations/jumpTo1InstructionafterJump_noJumpDest.json \
+                    tests/ethereum-tests/VMTests/vmRandomTest/201503110206PYTHON.json \
+                    tests/ethereum-tests/VMTests/vmArithmeticTest/stop.json
+
 test-all-vm: $(all_vm_tests:=.test)
 test-slow-vm: $(slow_vm_tests:=.test)
 test-vm: $(quick_vm_tests:=.test)
 test-vm-normal: $(quick_vm_tests:=.testnormal)
 test-vm-haskell-perf: $(haskell_perf_tests:=.haskellperf)
+test-vm-haskell-quick: $(haskell_quick_tests:=.haskellperf)
 
 tests/ethereum-tests/VMTests/%.test: tests/ethereum-tests/VMTests/%
 	MODE=VMTESTS SCHEDULE=DEFAULT $(TEST) --backend $(TEST_BACKEND) $<
@@ -307,8 +324,8 @@ tests/ethereum-tests/VMTests/%.testnormal: tests/ethereum-tests/VMTests/%
 	SCHEDULE=DEFAULT $(TEST) --backend $(TEST_BACKEND) $<
 
 tests/ethereum-tests/VMTests/%.haskellperf: tests/ethereum-tests/VMTests/%
-	SCHEDULE=DEFAULT $(TEST) --backend java         $< || true
-	SCHEDULE=DEFAULT $(TEST) --backend haskell-perf $< || true
+	SCHEDULE=DEFAULT $(TEST) --backend java    $< || true
+	SCHEDULE=DEFAULT $(TEST) --backend haskell $< || true
 
 # BlockchainTests
 
