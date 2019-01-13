@@ -57,7 +57,7 @@ $(K_SUBMODULE)/make.timestamp:
 	git submodule update --init --recursive -- $(K_SUBMODULE)
 	cd $(K_SUBMODULE) \
 	    && git submodule update --init \
-	    && mvn package -q -DskipTests -U
+	    && mvn package -q -DskipTests -U -pl kore,kernel,ktree,k-distribution,java-backend,haskell-backend
 	touch $(K_SUBMODULE)/make.timestamp
 
 $(PANDOC_TANGLE_SUBMODULE)/make.timestamp:
